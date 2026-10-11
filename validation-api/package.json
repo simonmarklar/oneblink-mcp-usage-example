@@ -1,0 +1,9 @@
+{
+  "name": "oneblink-mcp-demo-validation-api",
+  "version": "0.1.0",
+  "private": true,
+  "description": "OneBlink hosted-API server-validation endpoint for the demo contact form (example 2). Enforces a non-empty message server-side.",
+  "scripts": {
+    "test": "node --test"
+  }
+}

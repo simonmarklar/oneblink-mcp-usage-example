@@ -1,0 +1,16 @@
+{
+  "server": {
+    "project": "oneblink-mcp-demo-validation.api.oneblink.io",
+    "cors": true,
+    "routes": [
+      {
+        "route": "/validate",
+        "module": "./src/validate.js"
+      },
+      {
+        "route": "/prefill",
+        "module": "./src/prefill.js"
+      }
+    ]
+  }
+}

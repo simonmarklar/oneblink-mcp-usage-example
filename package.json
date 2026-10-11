@@ -1,0 +1,22 @@
+{
+  "name": "oneblink-mcp-demo",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Demonstrates the OneBlink MCP server and its companion skills: an MCP client that drives create_form, set_form_server_validation and set_form_personalisation over the HTTP transport with per-session credential headers.",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "install:skills": "node scripts/install-skills.mjs",
+    "discover": "node src/discover.mjs",
+    "example:1": "node src/example1-contact-us.mjs",
+    "example:2": "node src/example2-contact-us-au.mjs",
+    "deploy:validation-api": "node scripts/deploy-validation-api.mjs",
+    "examples": "npm run example:1 && npm run example:2"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0",
+    "dotenv": "^16.4.5"
+  }
+}
