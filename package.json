@@ -13,7 +13,8 @@
     "example:1": "node src/example1-contact-us.mjs",
     "example:2": "node src/example2-contact-us-au.mjs",
     "deploy:validation-api": "node scripts/deploy-validation-api.mjs",
-    "examples": "npm run example:1 && npm run example:2"
+    "examples": "npm run example:1 && npm run example:2",
+    "teardown": "node src/teardown.mjs"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.0.0",

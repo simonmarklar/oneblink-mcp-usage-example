@@ -82,6 +82,24 @@ npm run example:2     # AU address + server validation + prefill
 npm run examples      # both, in order
 ```
 
+## Tear down
+
+Delete the forms the examples created ("Contact Us" and "Contact Us (AU)"), via
+the MCP server's `delete_form` tool. Deletion is irreversible, so teardown is a
+**dry run by default** — it lists what it would delete; pass `--yes` to actually
+delete.
+
+```bash
+npm run teardown              # dry run: list the demo forms that would be deleted
+npm run teardown -- --yes     # delete them
+npm run teardown -- --yes --override   # also override a form-builder lock
+```
+
+Only the two demo form **names** are targeted — nothing else is touched. A
+locked form is reported and skipped unless `--override` is given. The deployed
+`validation-api` hosted API is **not** removed (the server has no api-delete
+workflow) — remove it in the OneBlink Console if you need to.
+
 ## Example 2, in detail
 
 1. **`create_form`** builds *Contact Us (AU)* from a CSV. The `State` element is
