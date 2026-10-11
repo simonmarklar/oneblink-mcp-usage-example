@@ -14,8 +14,10 @@
 //
 // Prereqs:
 //   - MCP server running: (in oneblink-mcp) npm run start:http
-//   - .env filled in, including ONEBLINK_VALIDATION_API_SCOPE pointing at an
-//     API Hosting entry you created in the Console.
+//   - .env filled in, including the validation API scope — composed from
+//     ONEBLINK_ORG_NAME + ONEBLINK_VALIDATION_API_NAME as
+//     "<org>-<api>.api.oneblink.io" (or the full ONEBLINK_VALIDATION_API_SCOPE
+//     override) — pointing at an API Hosting entry you created in the Console.
 //   - A CLI deploy credential: either ONEBLINK_CLI_* in .env, or the SDK key
 //     reused (the server does that when the CLI pair is blank). Deploy also
 //     needs the `oneblink` CLI logged in on the SERVER host.
@@ -48,7 +50,9 @@ async function main() {
   try {
     if (!cfg.validationApiScope) {
       throw new Error(
-        'ONEBLINK_VALIDATION_API_SCOPE is not set in .env. Set it to the API Hosting scope domain you created in the OneBlink Console.',
+        'No validation API scope resolved. Set ONEBLINK_ORG_NAME + ONEBLINK_VALIDATION_API_NAME in .env ' +
+          '(the scope is composed as "<org>-<api>.api.oneblink.io"), or set ONEBLINK_VALIDATION_API_SCOPE ' +
+          'to the full domain. It must match the API Hosting entry you created in the OneBlink Console.',
       )
     }
     const formsAppEnvironmentId = await resolveEnvironmentId(client, cfg)

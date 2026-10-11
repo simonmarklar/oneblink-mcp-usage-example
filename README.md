@@ -17,8 +17,10 @@ workflow tools to build two forms.
   by default). In the `oneblink-mcp` project: `npm install && npm run build && npm run start:http`.
 - A **OneBlink Developer Key** (Console → Developer Keys).
 - For example 2's deploy: the **`oneblink` CLI logged in** on the server host
-  (`oneblink login`), and an **API Hosting entry** created in the Console whose
-  scope domain you put in `ONEBLINK_VALIDATION_API_SCOPE`.
+  (`oneblink login`), and an **API Hosting entry** created in the Console. Its
+  scope domain follows the OneBlink convention
+  `<organisation-name>-<api-name>.api.oneblink.io`, which the demo composes from
+  `ONEBLINK_ORG_NAME` + `ONEBLINK_VALIDATION_API_NAME`.
 
 ## Setup
 
@@ -38,8 +40,18 @@ value; the required ones are:
 ONEBLINK_MCP_URL=http://127.0.0.1:3000/mcp
 ONEBLINK_ACCESS_KEY=<your Developer Key access key>
 ONEBLINK_SECRET_KEY=<your Developer Key secret key>
-ONEBLINK_VALIDATION_API_SCOPE=<your-api-hosting-scope.api.oneblink.io>  # example 2
+# Example 2 scope — convention: <organisation-name>-<api-name>.api.oneblink.io
+ONEBLINK_ORG_NAME=<your organisation name>
+ONEBLINK_VALIDATION_API_NAME=mcp-demo-validation
 ```
+
+> **Scope naming convention.** A OneBlink hosted-API scope domain is
+> `<organisation-name>-<api-name>.api.oneblink.io`. The demo composes it from
+> `ONEBLINK_ORG_NAME` + `ONEBLINK_VALIDATION_API_NAME` — e.g. org `acme` +
+> api `mcp-demo-validation` → `acme-mcp-demo-validation.api.oneblink.io`. The
+> composed domain must match the API Hosting entry you created in the Console.
+> To skip the two parts, set the full domain directly in
+> `ONEBLINK_VALIDATION_API_SCOPE` (it overrides both).
 
 ### Install the skills
 
@@ -96,6 +108,13 @@ handlers). Pure validation logic is unit-tested:
 cd validation-api
 npm test        # node:test — covers the non-empty message rule, AU state, postcode
 ```
+
+> `.blinkmrc.json`'s `server.project` is a placeholder
+> (`ORG-mcp-demo-validation.api.oneblink.io`). The deploy tools pass `scope`
+> explicitly (running `oneblink api scope <scope>` first), so the resolved
+> `<organisation-name>-<api-name>.api.oneblink.io` from your `.env` is what the
+> API is actually deployed under — edit the placeholder only if you deploy the
+> project with the bare CLI instead of the demo scripts.
 
 Deploy it on its own (without re-running example 2):
 

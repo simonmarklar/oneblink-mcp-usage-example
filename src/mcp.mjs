@@ -23,12 +23,36 @@ export function loadConfig() {
     secretKey,
     cliAccessKey: process.env.ONEBLINK_CLI_ACCESS_KEY || '',
     cliSecretKey: process.env.ONEBLINK_CLI_SECRET_KEY || '',
-    validationApiScope: process.env.ONEBLINK_VALIDATION_API_SCOPE || '',
+    validationApiScope: resolveValidationApiScope(),
     validationApiEnv: process.env.ONEBLINK_VALIDATION_API_ENV || 'dev',
     formsAppEnvironmentId: process.env.ONEBLINK_FORMS_APP_ENVIRONMENT_ID
       ? Number(process.env.ONEBLINK_FORMS_APP_ENVIRONMENT_ID)
       : undefined,
   }
+}
+
+// A OneBlink hosted-API scope domain follows the convention:
+//   <organisation-name>-<api-name>.api.oneblink.io
+// Compose it from ONEBLINK_ORG_NAME + ONEBLINK_VALIDATION_API_NAME, unless a
+// full ONEBLINK_VALIDATION_API_SCOPE override is given. Returns '' when neither
+// is usable (callers that need it throw with a clear message).
+const SCOPE_SUFFIX = '.api.oneblink.io'
+
+export function resolveValidationApiScope() {
+  const override = (process.env.ONEBLINK_VALIDATION_API_SCOPE || '').trim()
+  if (override) {
+    if (!override.endsWith(SCOPE_SUFFIX)) {
+      throw new Error(
+        `ONEBLINK_VALIDATION_API_SCOPE must be a full "<org>-<api>${SCOPE_SUFFIX}" domain, got "${override}".`,
+      )
+    }
+    return override
+  }
+  const org = (process.env.ONEBLINK_ORG_NAME || '').trim()
+  const api = (process.env.ONEBLINK_VALIDATION_API_NAME || '').trim()
+  if (!org || !api) return ''
+  // <organisation-name>-<api-name>.api.oneblink.io
+  return `${org}-${api}${SCOPE_SUFFIX}`
 }
 
 // Build the credential headers. The CLI deploy pair is only attached when set.

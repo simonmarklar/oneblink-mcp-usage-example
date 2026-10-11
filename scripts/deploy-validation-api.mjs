@@ -7,7 +7,9 @@
 //   npm run deploy:validation-api -- --env prod   # requires confirmProduction
 //
 // Prereqs: MCP server running, .env filled, oneblink CLI logged in on the
-// server host, ONEBLINK_VALIDATION_API_SCOPE set.
+// server host, and a validation API scope resolvable from ONEBLINK_ORG_NAME +
+// ONEBLINK_VALIDATION_API_NAME ("<org>-<api>.api.oneblink.io") or the full
+// ONEBLINK_VALIDATION_API_SCOPE override.
 import { fileURLToPath } from 'node:url'
 import { dirname, resolve } from 'node:path'
 import { connect, callTool } from '../src/mcp.mjs'
@@ -25,7 +27,10 @@ async function main() {
   try {
     const env = argEnv() || cfg.validationApiEnv
     if (!cfg.validationApiScope) {
-      throw new Error('ONEBLINK_VALIDATION_API_SCOPE is not set in .env.')
+      throw new Error(
+        'No validation API scope resolved. Set ONEBLINK_ORG_NAME + ONEBLINK_VALIDATION_API_NAME in .env ' +
+          '(scope = "<org>-<api>.api.oneblink.io"), or set ONEBLINK_VALIDATION_API_SCOPE to the full domain.',
+      )
     }
     console.log(`Deploying ${cfg.validationApiScope} (env=${env}) from ${VALIDATION_API_DIR} ...`)
     const res = await callTool(client, 'deploy_hosted_api', {

@@ -1,6 +1,6 @@
 {
   "server": {
-    "project": "oneblink-mcp-demo-validation.api.oneblink.io",
+    "project": "ORG-mcp-demo-validation.api.oneblink.io",
     "cors": true,
     "routes": [
       {
