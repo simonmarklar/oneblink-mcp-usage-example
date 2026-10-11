@@ -21,14 +21,14 @@ test('a fully valid submission passes', () => {
 test('empty message is REJECTED by the server (even though the form does not require it)', () => {
   const r = validateSubmission({ ...valid, message: '   ' });
   assert.equal(r.ok, false);
-  assert.match(r.message, /message must not be empty/);
+  assert.match(r.message, /message must not be null/);
 });
 
 test('missing message is rejected', () => {
   const { message, ...noMessage } = valid;
   const r = validateSubmission(noMessage);
   assert.equal(r.ok, false);
-  assert.match(r.message, /message must not be empty/);
+  assert.match(r.message, /message must not be null/);
 });
 
 test('bad state is rejected', () => {

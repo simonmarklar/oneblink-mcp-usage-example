@@ -37,10 +37,10 @@ function validateSubmission(submission) {
   const problems = [];
   const data = submission && typeof submission === 'object' ? submission : {};
 
-  // 1. Each required-non-empty field present and non-empty (includes `message`).
+  // 1. Each required-non-null field present and non-empty (includes `message`).
   for (const field of REQUIRED_NON_EMPTY) {
     if (isEmpty(data[field])) {
-      problems.push(field + ' must not be empty');
+      problems.push(field + ' must not be null');
     }
   }
 
